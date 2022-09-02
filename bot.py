@@ -35,11 +35,11 @@ class Bot(DesktopBot):
         # activity_id = task.activity_id
 
         import pandas as pd
-        basedados = pd.read_excel(r'excel.xlsx', 'urbano', keep_default_na=False)
-        basedados4 = pd.read_excel(r'excel.xlsx', 'autonoma', keep_default_na=False)
-        basedados5 = pd.read_excel(r'excel.xlsx', 'rural', keep_default_na=False)
+        basedados = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'urbano', keep_default_na=False)
+        basedados4 = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'autonoma', keep_default_na=False)
+        basedados5 = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'rural', keep_default_na=False)
 
-        for i in range(4):
+        for i in range(0):
 
             if not self.find( "matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
@@ -90,7 +90,7 @@ class Bot(DesktopBot):
                 if not self.find( "ok_atencao", matching=0.97, waiting_time=10000):
                     self.not_found("ok_atencao")
                 self.click()
-                if not self.find("click_localizacao", matching=0.97, waiting_time=10000):
+                if not self.find( "click_localizacao", matching=0.97, waiting_time=10000):
                     self.not_found("click_localizacao")
                 self.click_relative(116, 9)
                 
@@ -112,10 +112,10 @@ class Bot(DesktopBot):
                 recorte1 = "metro"
             elif tipo_unidademedidaurbano == "H":
                 recorte1 = "hectare"
-            elif tipo_unidademedidaurbano == "A":
+            elif tipo_unidademedidaurbano == "ALQ.":
                 recorte1 = "Alqueire"
             else:
-                recorte1 = "metro_2"
+                recorte1 = "unidade_vazio"
             if not self.find(recorte1, matching=0.97, waiting_time=10000):
                 self.not_found(recorte1)
             self.click()
@@ -163,7 +163,7 @@ class Bot(DesktopBot):
             self.click()
             self.space()
 
-        for j in range(5):
+        for j in range(1):
 
             if not self.find( "matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
@@ -180,7 +180,7 @@ class Bot(DesktopBot):
             self.page_up()
 
             tipo_unidadeautonoma = str(basedados4["TIPO"][j]).upper()
-            if tipo_unidadeautonoma == "R":
+            if tipo_unidadeautonoma == "RESIDENCIAL":
                 recorte2 = "residencial"
             else:
                 recorte2 = "comercial"
@@ -227,7 +227,7 @@ class Bot(DesktopBot):
             self.page_up()
 
             tipo_unidademedidaautonoma = str(basedados4["UNID"][j]).upper()
-            if tipo_unidademedidaautonoma == "M":
+            if tipo_unidademedidaautonoma == "Metro":
                 recorte3 = "metro"
             else:
                 recorte3 = "hectare"
@@ -237,7 +237,7 @@ class Bot(DesktopBot):
             #     self.not_found(recorte3)
             self.click()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["AREA CONTRUIDA"][j]))
+            self.copy_to_clipboard(str(basedados4["AREA CONSTRUIDA"][j]))
             self.paste()
             self.enter()
             self.copy_to_clipboard(str(basedados4["AREA PRIVATIVA"][j]))
@@ -315,7 +315,7 @@ class Bot(DesktopBot):
             self.click()
             self.space()
 
-        for t in range(5):
+        for t in range(1):
 
             if not self.find( "matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
@@ -358,15 +358,16 @@ class Bot(DesktopBot):
             self.enter()
             self.page_up()
 
-            tipo_unidademedidarural = str(basedados5["UNIDADE"][t]).upper()
+            tipo_unidademedidarural = str(basedados5["UNID"][t]).upper()
             if tipo_unidademedidarural == "M":
                 recorte5 = "metro"
             elif tipo_unidademedidarural == "H":
                 recorte5 = "hectare"
-            elif tipo_unidademedidarural == "A":
+            elif tipo_unidademedidarural == "ALQ":
                 recorte5 = "Alqueire"
             else:
-                recorte5 = "metro_2"
+                recorte5 = "metro"
+
             if not self.find(recorte5, matching=0.97, waiting_time=10000):
                 self.not_found(recorte5)
             self.click()
@@ -404,16 +405,29 @@ class Bot(DesktopBot):
             self.copy_to_clipboard(str(basedados5["OBS"][t]))
             self.paste()
 
+            if not self.find("certificado", matching=0.97, waiting_time=10000):
+                self.not_found("certificado")
+            self.double_click_relative(172, 11)
+            self.copy_to_clipboard(str(basedados5["CERTIFICADO"][t]))
+            self.paste()
+            self.enter()
+            self.copy_to_clipboard(str(basedados5["CAR"][t]))
+            self.paste()
+
             if not self.find( "salvar", matching=0.97, waiting_time=10000):
                 self.not_found("salvar")
             self.click()
             self.space()
             
             
-            if not self.find( "click_localizacao", matching=0.97, waiting_time=10000):
-                self.not_found("click_localizacao")
-            self.click_relative(116, 9)
+
             
+
+
+            
+            
+            
+
             
             
             
