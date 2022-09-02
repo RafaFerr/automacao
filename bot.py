@@ -39,7 +39,7 @@ class Bot(DesktopBot):
         basedados4 = pd.read_excel(r'excel.xlsx', 'autonoma', keep_default_na=False)
         basedados5 = pd.read_excel(r'excel.xlsx', 'rural', keep_default_na=False)
 
-        for i in range(0):
+        for i in range(4):
 
             if not self.find( "matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
@@ -57,15 +57,46 @@ class Bot(DesktopBot):
             self.copy_to_clipboard(str(basedados["LOTE"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["QUADRA"][i]))
-            self.paste()
+
+            if self.find( "matcad"):
+                if not self.find( "cancel", matching=0.97, waiting_time=10000):
+                    self.not_found("cancel")
+                self.click()
+                self.enter()
+                self.copy_to_clipboard(str(basedados["QUADRA"][i]))
+                self.paste()
+            else:
+                self.copy_to_clipboard(str(basedados["QUADRA"][i]))
+                self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["SETOR"][i]))
-            self.paste()
+
+            if self.find( "matcad"):
+                if not self.find( "cancel", matching=0.97, waiting_time=10000):
+                    self.not_found("cancel")
+                self.click()
+                self.enter()
+                self.copy_to_clipboard(str(basedados["SETOR"][i]))
+                self.paste()
+            else:
+                self.copy_to_clipboard(str(basedados["SETOR"][i]))
+                self.paste()
             self.enter()
+
             self.copy_to_clipboard(str(basedados["IND.FISCAL"][i]))
             self.paste()
             self.enter()
+
+            if self.find( "atencao"):
+                if not self.find( "ok_atencao", matching=0.97, waiting_time=10000):
+                    self.not_found("ok_atencao")
+                self.click()
+                if not self.find("click_localizacao", matching=0.97, waiting_time=10000):
+                    self.not_found("click_localizacao")
+                self.click_relative(116, 9)
+                
+            else:
+                self.wait(10)
+
             self.copy_to_clipboard(str(basedados["LOCALIZACAO"][i]))
             self.paste()
             self.enter()
@@ -132,7 +163,7 @@ class Bot(DesktopBot):
             self.click()
             self.space()
 
-        for j in range(0):
+        for j in range(5):
 
             if not self.find( "matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
@@ -284,7 +315,7 @@ class Bot(DesktopBot):
             self.click()
             self.space()
 
-        for t in range(4):
+        for t in range(5):
 
             if not self.find( "matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
@@ -305,8 +336,8 @@ class Bot(DesktopBot):
             self.paste()
             self.enter()
 
-            if self.find("matcad"):
-                if not self.find("cancel", matching=0.97, waiting_time=1000):
+            if self.find( "matcad"):
+                if not self.find( "cancel", matching=0.97, waiting_time=1000):
                     self.not_found("cancel")
                 self.click()
                 self.copy_to_clipboard(str(basedados5["INCRA"][t]))
@@ -377,6 +408,20 @@ class Bot(DesktopBot):
                 self.not_found("salvar")
             self.click()
             self.space()
+            
+            
+            if not self.find( "click_localizacao", matching=0.97, waiting_time=10000):
+                self.not_found("click_localizacao")
+            self.click_relative(116, 9)
+            
+            
+            
+            
+
+                
+
+                
+            
 
 
 
