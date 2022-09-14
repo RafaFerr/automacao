@@ -44,7 +44,8 @@ class Bot(DesktopBot):
             if not self.find( "matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
             self.double_click_relative(170, 15)
-            self.paste(str(basedados["MATRICULA"][i]))
+            self.copy_to_clipboard(str(basedados["MATRICULA"][i]))
+            self.paste()
             self.enter()
             self.enter()
 
@@ -168,7 +169,8 @@ class Bot(DesktopBot):
             if not self.find( "matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
             self.double_click_relative(170, 15)
-            self.paste(str(basedados4["MATRICULA"][j]))
+            self.copy_to_clipboard(str(basedados4["MATRICULA"][j]))
+            self.paste()
             self.enter()
             self.enter()
             if not self.find( "alterar", matching=0.97, waiting_time=10000):
@@ -320,7 +322,8 @@ class Bot(DesktopBot):
             if not self.find( "matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
             self.double_click_relative(170, 15)
-            self.paste(str(basedados5["MATRICULA"][t]))
+            self.copy_to_clipboard(str(basedados5["MATRICULA"][t]))
+            self.paste()
             self.enter()
             self.enter()
             if not self.find( "alterar", matching=0.97, waiting_time=10000):
@@ -340,6 +343,7 @@ class Bot(DesktopBot):
                 if not self.find( "cancel", matching=0.97, waiting_time=1000):
                     self.not_found("cancel")
                 self.click()
+                self.enter()
                 self.copy_to_clipboard(str(basedados5["INCRA"][t]))
                 self.paste()
             else:
