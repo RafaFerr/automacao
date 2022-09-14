@@ -21,6 +21,7 @@ Please refer to the documentation for more information at https://documentation.
 """
 
 from botcity.core import DesktopBot
+from datetime import datetime
 
 
 # Uncomment the line below for integrations with BotMaestro
@@ -35,79 +36,88 @@ class Bot(DesktopBot):
         # activity_id = task.activity_id
 
         import pandas as pd
-        basedados = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'urbano', keep_default_na=False)
-        basedados4 = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'autonoma', keep_default_na=False)
-        basedados5 = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'rural', keep_default_na=False)
+        basedados_urbano = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'urbano', keep_default_na=False)
+        basedados_autonoma = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'autonoma', keep_default_na=False)
+        basedados_rural = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'rural', keep_default_na=False)
+        arquivo = open(r'C:\Users\rafael\Downloads\log.txt', 'w')
 
-        for i in range(0):
+        for i in range(1):
+            dataatual = datetime.now()
 
-            if not self.find( "matricula", matching=0.97, waiting_time=10000):
+            if not self.find("matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
             self.double_click_relative(170, 15)
-            self.paste(str(basedados["MATRICULA"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["MATRICULA"][i]))
+            self.paste()
             self.enter()
             self.enter()
+            arquivo.write(str(basedados_urbano["MATRICULA"][i]))
+            arquivo.write(" - ")
+            arquivo.write(dataatual.strftime('%d/%m/%Y %H:%M'))
+            arquivo.write("\n")
+            arquivo.write("------------------- ")
+            arquivo.write("\n")
 
-            if not self.find( "alterar", matching=0.97, waiting_time=10000):
+            if not self.find("alterar", matching=0.97, waiting_time=10000):
                 self.not_found("alterar")
             self.click()
-            self.copy_to_clipboard(str(basedados["IMOVEL"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["IMOVEL"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["LOTE"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["LOTE"][i]))
             self.paste()
             self.enter()
 
-            if self.find( "matcad"):
-                if not self.find( "cancel", matching=0.97, waiting_time=10000):
+            if self.find("matcad"):
+                if not self.find("cancel", matching=0.97, waiting_time=10000):
                     self.not_found("cancel")
                 self.click()
                 self.enter()
-                self.copy_to_clipboard(str(basedados["QUADRA"][i]))
+                self.copy_to_clipboard(str(basedados_urbano["QUADRA"][i]))
                 self.paste()
             else:
-                self.copy_to_clipboard(str(basedados["QUADRA"][i]))
+                self.copy_to_clipboard(str(basedados_urbano["QUADRA"][i]))
                 self.paste()
             self.enter()
 
-            if self.find( "matcad"):
-                if not self.find( "cancel", matching=0.97, waiting_time=10000):
+            if self.find("matcad"):
+                if not self.find("cancel", matching=0.97, waiting_time=10000):
                     self.not_found("cancel")
                 self.click()
                 self.enter()
-                self.copy_to_clipboard(str(basedados["SETOR"][i]))
+                self.copy_to_clipboard(str(basedados_urbano["SETOR"][i]))
                 self.paste()
             else:
-                self.copy_to_clipboard(str(basedados["SETOR"][i]))
+                self.copy_to_clipboard(str(basedados_urbano["SETOR"][i]))
                 self.paste()
             self.enter()
 
-            self.copy_to_clipboard(str(basedados["IND.FISCAL"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["IND.FISCAL"][i]))
             self.paste()
             self.enter()
 
-            if self.find( "atencao"):
-                if not self.find( "ok_atencao", matching=0.97, waiting_time=10000):
+            if self.find("atencao"):
+                if not self.find("ok_atencao", matching=0.97, waiting_time=10000):
                     self.not_found("ok_atencao")
                 self.click()
-                if not self.find( "click_localizacao", matching=0.97, waiting_time=10000):
+                if not self.find("click_localizacao", matching=0.97, waiting_time=10000):
                     self.not_found("click_localizacao")
                 self.click_relative(116, 9)
-                
+
             else:
                 self.wait(10)
 
-            self.copy_to_clipboard(str(basedados["LOCALIZACAO"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["LOCALIZACAO"][i]))
             self.paste()
             self.enter()
             self.delete()
             self.wait(500)
-            self.copy_to_clipboard(str(basedados["AREA"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["AREA"][i]))
             self.paste()
             self.enter()
             self.page_up()
 
-            tipo_unidademedidaurbano = str(basedados["UNID"][i]).upper()
+            tipo_unidademedidaurbano = str(basedados_urbano["UNID"][i]).upper()
             if tipo_unidademedidaurbano == "M":
                 recorte1 = "metro"
             elif tipo_unidademedidaurbano == "H":
@@ -120,66 +130,75 @@ class Bot(DesktopBot):
                 self.not_found(recorte1)
             self.click()
             self.enter()
-            self.copy_to_clipboard(str(basedados["AREA CONSTR"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["AREA CONSTR"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["PL FISCAL"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["PL FISCAL"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["BENFEITORIA"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["BENFEITORIA"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["VAGAS"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["VAGAS"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["CEP"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["CEP"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["CIDADE"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["CIDADE"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["ESTADO"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["ESTADO"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["VIA"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["VIA"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["ENDERECO"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["ENDERECO"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["NUMERO"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["NUMERO"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["COMPLEMENTO"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["COMPLEMENTO"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["BAIRRO"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["BAIRRO"][i]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados["OBS"][i]))
+            self.copy_to_clipboard(str(basedados_urbano["OBS"][i]))
             self.paste()
-            if not self.find( "salvar", matching=0.97, waiting_time=10000):
+            if not self.find("salvar", matching=0.97, waiting_time=10000):
                 self.not_found("salvar")
             self.click()
             self.space()
 
         for j in range(1):
+            dataatual = datetime.now()
 
-            if not self.find( "matricula", matching=0.97, waiting_time=10000):
+            if not self.find("matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
             self.double_click_relative(170, 15)
-            self.paste(str(basedados4["MATRICULA"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["MATRICULA"][j]))
+            self.paste()
             self.enter()
             self.enter()
-            if not self.find( "alterar", matching=0.97, waiting_time=10000):
+            arquivo.write(str(basedados_autonoma["MATRICULA"][j]))
+            arquivo.write(" - ")
+            arquivo.write(dataatual.strftime('%d/%m/%Y %H:%M'))
+            arquivo.write("\n")
+            arquivo.write("------------------- ")
+            arquivo.write("\n")
+
+            if not self.find("alterar", matching=0.97, waiting_time=10000):
                 self.not_found("alterar")
             self.click()
-            self.copy_to_clipboard(str(basedados4["IMOVEL"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["IMOVEL"][j]))
             self.paste()
             self.enter()
             self.page_up()
 
-            tipo_unidadeautonoma = str(basedados4["TIPO"][j]).upper()
+            tipo_unidadeautonoma = str(basedados_autonoma["TIPO"][j]).upper()
             if tipo_unidadeautonoma == "RESIDENCIAL":
                 recorte2 = "residencial"
             else:
@@ -188,45 +207,45 @@ class Bot(DesktopBot):
                 self.not_found(recorte2)
             self.click()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["TIPO_IMOVEL"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["TIPO_IMOVEL"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["NUMERO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["NUMERO"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["ANDAR"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["ANDAR"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["BLOCO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["BLOCO"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["PAVIMENTO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["PAVIMENTO"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["SETOR"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["SETOR"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["IND.FISCAL"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["IND.FISCAL"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["QUADRA"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["QUADRA"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["LOTE"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["LOTE"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["LOCALIZACAO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["LOCALIZACAO"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["EMPREENDIMENTO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["EMPREENDIMENTO"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["AREA"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["AREA"][j]))
             self.paste()
             self.enter()
             self.page_up()
 
-            tipo_unidademedidaautonoma = str(basedados4["UNID"][j]).upper()
+            tipo_unidademedidaautonoma = str(basedados_autonoma["UNID"][j]).upper()
             if tipo_unidademedidaautonoma == "Metro":
                 recorte3 = "metro"
             else:
@@ -237,21 +256,21 @@ class Bot(DesktopBot):
             #     self.not_found(recorte3)
             self.click()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["AREA CONSTRUIDA"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["AREA CONSTRUIDA"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["AREA PRIVATIVA"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["AREA PRIVATIVA"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["AREA USO COMUM"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["AREA USO COMUM"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["FRACAO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["FRACAO"][j]))
             self.paste()
             self.enter()
             self.page_up()
 
-            tipo_unidadefracao = str(basedados4["UNID FRACAO"][j]).upper()
+            tipo_unidadefracao = str(basedados_autonoma["UNID FRACAO"][j]).upper()
             if tipo_unidadefracao == "%":
                 self.type_down()
             else:
@@ -259,106 +278,116 @@ class Bot(DesktopBot):
                 self.kb_type(recorte4[0])
             self.enter()
 
-            #if not self.find(recorte4, matching=0.999999, waiting_time=10000):
+            # if not self.find(recorte4, matching=0.999999, waiting_time=10000):
             #    self.not_found(recorte4)
-            #self.click()
-            #self.enter()
-            self.copy_to_clipboard(str(basedados4["OUTRAS AREAS"][j]))
+            # self.click()
+            # self.enter()
+            self.copy_to_clipboard(str(basedados_autonoma["OUTRAS AREAS"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["VAGAS"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["VAGAS"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["PL FISCAL"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["PL FISCAL"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["CEP"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["CEP"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["CIDADE"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["CIDADE"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["ESTADO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["ESTADO"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["VIA"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["VIA"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["ENDERECO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["ENDERECO"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["NUMERO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["NUMERO"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["COMPLEMENTO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["COMPLEMENTO"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["BAIRRO"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["BAIRRO"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["OBS"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["OBS"][j]))
             self.paste()
 
-            if not self.find( "area_priv_total", matching=0.97, waiting_time=10000):
+            if not self.find("area_priv_total", matching=0.97, waiting_time=10000):
                 self.not_found("area_priv_total")
             self.double_click_relative(214, 11)
             self.double_click()
-            self.copy_to_clipboard(str(basedados4["AREA PRIV TOTAL"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["AREA PRIV TOTAL"][j]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados4["AREA REAL TOTAL"][j]))
+            self.copy_to_clipboard(str(basedados_autonoma["AREA REAL TOTAL"][j]))
             self.paste()
             self.enter()
 
-            if not self.find( "salvar", matching=0.97, waiting_time=10000):
+            if not self.find("salvar", matching=0.97, waiting_time=10000):
                 self.not_found("salvar")
             self.click()
             self.space()
 
         for t in range(1):
+            dataatual = datetime.now()
 
-            if not self.find( "matricula", matching=0.97, waiting_time=10000):
+            if not self.find("matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
             self.double_click_relative(170, 15)
-            self.paste(str(basedados5["MATRICULA"][t]))
+            self.copy_to_clipboard(str(basedados_rural["MATRICULA"][t]))
+            self.paste()
             self.enter()
             self.enter()
-            if not self.find( "alterar", matching=0.97, waiting_time=10000):
+            arquivo.write(str(basedados_rural["MATRICULA"][i]))
+            arquivo.write(" - ")
+            arquivo.write(dataatual.strftime('%d/%m/%Y %H:%M'))
+            arquivo.write("\n")
+            arquivo.write("------------------- ")
+            arquivo.write("\n")
+
+            if not self.find("alterar", matching=0.97, waiting_time=10000):
                 self.not_found("alterar")
             self.click()
-            self.copy_to_clipboard(str(basedados5["IMOVEL"][t]))
+            self.copy_to_clipboard(str(basedados_rural["IMOVEL"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["LOTE"][t]))
+            self.copy_to_clipboard(str(basedados_rural["LOTE"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["QUADRA"][t]))
+            self.copy_to_clipboard(str(basedados_rural["QUADRA"][t]))
             self.paste()
             self.enter()
 
-            if self.find( "matcad"):
-                if not self.find( "cancel", matching=0.97, waiting_time=1000):
+            if self.find("matcad"):
+                if not self.find("cancel", matching=0.97, waiting_time=1000):
                     self.not_found("cancel")
                 self.click()
-                self.copy_to_clipboard(str(basedados5["INCRA"][t]))
+                self.enter()
+                self.copy_to_clipboard(str(basedados_rural["INCRA"][t]))
                 self.paste()
             else:
-                self.copy_to_clipboard(str(basedados5["INCRA"][t]))
+                self.copy_to_clipboard(str(basedados_rural["INCRA"][t]))
                 self.paste()
             self.enter()
 
-            self.copy_to_clipboard(str(basedados5["ITR"][t]))
+            self.copy_to_clipboard(str(basedados_rural["ITR"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["LOCALIZACAO"][t]))
+            self.copy_to_clipboard(str(basedados_rural["LOCALIZACAO"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["AREA"][t]))
+            self.copy_to_clipboard(str(basedados_rural["AREA"][t]))
             self.paste()
             self.enter()
             self.page_up()
 
-            tipo_unidademedidarural = str(basedados5["UNID"][t]).upper()
+            tipo_unidademedidarural = str(basedados_rural["UNID"][t]).upper()
             if tipo_unidademedidarural == "M":
                 recorte5 = "metro"
             elif tipo_unidademedidarural == "H":
@@ -372,118 +401,55 @@ class Bot(DesktopBot):
                 self.not_found(recorte5)
             self.click()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["AREA CONSTR"][t]))
+            self.copy_to_clipboard(str(basedados_rural["AREA CONSTR"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["BENFEITORIA"][t]))
+            self.copy_to_clipboard(str(basedados_rural["BENFEITORIA"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["CEP"][t]))
+            self.copy_to_clipboard(str(basedados_rural["CEP"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["CIDADE"][t]))
+            self.copy_to_clipboard(str(basedados_rural["CIDADE"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["ESTADO"][t]))
+            self.copy_to_clipboard(str(basedados_rural["ESTADO"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["VIA"][t]))
+            self.copy_to_clipboard(str(basedados_rural["VIA"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["ENDERECO"][t]))
+            self.copy_to_clipboard(str(basedados_rural["ENDERECO"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["NUMERO"][t]))
+            self.copy_to_clipboard(str(basedados_rural["NUMERO"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["COMPLEMENTO"][t]))
+            self.copy_to_clipboard(str(basedados_rural["COMPLEMENTO"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["BAIRRO"][t]))
+            self.copy_to_clipboard(str(basedados_rural["BAIRRO"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["OBS"][t]))
+            self.copy_to_clipboard(str(basedados_rural["OBS"][t]))
             self.paste()
 
             if not self.find("certificado", matching=0.97, waiting_time=10000):
                 self.not_found("certificado")
             self.double_click_relative(172, 11)
-            self.copy_to_clipboard(str(basedados5["CERTIFICADO"][t]))
+            self.copy_to_clipboard(str(basedados_rural["CERTIFICADO"][t]))
             self.paste()
             self.enter()
-            self.copy_to_clipboard(str(basedados5["CAR"][t]))
+            self.copy_to_clipboard(str(basedados_rural["CAR"][t]))
             self.paste()
 
-            if not self.find( "salvar", matching=0.97, waiting_time=10000):
+            if not self.find("salvar", matching=0.97, waiting_time=10000):
                 self.not_found("salvar")
             self.click()
             self.space()
-            
-            
+            arquivo.close()
 
-            
-
-
-            
-            
-            
-
-            
-            
-            
-
-                
-
-                
-            
-
-
-
-
-
-
-
-
-
-
-
-            
-            
-            
-
-
-            
-
-            
-            
-            
-            
-
-            
-
-            
-
-           
-            
-
-
-            
-            
-
-
-
-
-
-
-                
-                
-                
-               
-                
-
-
-
-                # Uncomment to mark this task as finished on BotMaestro
+            # Uncomment to mark this task as finished on BotMaestro
     # self.maestro.finish_task(
     #     task_id=execution.task_id,
     #     status=AutomationTaskFinishStatus.SUCCESS,
@@ -497,5 +463,4 @@ def not_found(self, label):
 
 if __name__ == '__main__':
     Bot.main()
-
 
