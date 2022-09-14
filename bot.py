@@ -183,21 +183,21 @@ class Bot(DesktopBot):
             self.paste()
             self.enter()
             self.enter()
-<<<<<<< HEAD
+
             arquivo.write(str(basedados_autonoma["MATRICULA"][j]))
-=======
+
             arquivo.write(str(basedados_urbano["MATRICULA"][j]))
->>>>>>> 3131b5049c0b5e7656513035e015ac0961450d08
+
             arquivo.write(" - ")
             arquivo.write(dataatual.strftime('%d/%m/%Y %H:%M'))
             arquivo.write("\n")
             arquivo.write("------------------- ")
             arquivo.write("\n")
-<<<<<<< HEAD
 
-=======
+
+
             
->>>>>>> 3131b5049c0b5e7656513035e015ac0961450d08
+
             if not self.find("alterar", matching=0.97, waiting_time=10000):
                 self.not_found("alterar")
             self.click()
@@ -352,21 +352,21 @@ class Bot(DesktopBot):
             self.paste()
             self.enter()
             self.enter()
-<<<<<<< HEAD
+
             arquivo.write(str(basedados_rural["MATRICULA"][i]))
-=======
+
             arquivo.write(str(basedados_urbano["MATRICULA"][i]))
->>>>>>> 3131b5049c0b5e7656513035e015ac0961450d08
+
             arquivo.write(" - ")
             arquivo.write(dataatual.strftime('%d/%m/%Y %H:%M'))
             arquivo.write("\n")
             arquivo.write("------------------- ")
             arquivo.write("\n")
-<<<<<<< HEAD
 
-=======
+
+
             
->>>>>>> 3131b5049c0b5e7656513035e015ac0961450d08
+
             if not self.find("alterar", matching=0.97, waiting_time=10000):
                 self.not_found("alterar")
             self.click()
