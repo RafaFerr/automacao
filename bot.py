@@ -21,6 +21,7 @@ Please refer to the documentation for more information at https://documentation.
 """
 
 from botcity.core import DesktopBot
+from datetime import datetime
 
 
 # Uncomment the line below for integrations with BotMaestro
@@ -38,8 +39,10 @@ class Bot(DesktopBot):
         basedados_urbano = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'urbano', keep_default_na=False)
         basedados_autonoma = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'autonoma', keep_default_na=False)
         basedados_rural = pd.read_excel(r'C:\Users\rafael\Downloads\INDICADOR_REAL.xlsx', 'rural', keep_default_na=False)
+        arquivo = open(r'C:\Users\rafael\Downloads\log.txt', 'w')
 
-        for i in range(0):
+        for i in range(1):
+            dataatual = datetime.now()
 
             if not self.find("matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
@@ -48,6 +51,12 @@ class Bot(DesktopBot):
             self.paste()
             self.enter()
             self.enter()
+            arquivo.write(str(basedados_urbano["MATRICULA"][i]))
+            arquivo.write(" - ")
+            arquivo.write(dataatual.strftime('%d/%m/%Y %H:%M'))
+            arquivo.write("\n")
+            arquivo.write("------------------- ")
+            arquivo.write("\n")
 
             if not self.find("alterar", matching=0.97, waiting_time=10000):
                 self.not_found("alterar")
@@ -165,6 +174,7 @@ class Bot(DesktopBot):
             self.space()
 
         for j in range(1):
+            dataatual = datetime.now()
 
             if not self.find("matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
@@ -173,6 +183,13 @@ class Bot(DesktopBot):
             self.paste()
             self.enter()
             self.enter()
+            arquivo.write(str(basedados_urbano["MATRICULA"][j]))
+            arquivo.write(" - ")
+            arquivo.write(dataatual.strftime('%d/%m/%Y %H:%M'))
+            arquivo.write("\n")
+            arquivo.write("------------------- ")
+            arquivo.write("\n")
+            
             if not self.find("alterar", matching=0.97, waiting_time=10000):
                 self.not_found("alterar")
             self.click()
@@ -318,6 +335,7 @@ class Bot(DesktopBot):
             self.space()
 
         for t in range(1):
+            dataatual = datetime.now()
 
             if not self.find("matricula", matching=0.97, waiting_time=10000):
                 self.not_found("matricula")
@@ -326,6 +344,13 @@ class Bot(DesktopBot):
             self.paste()
             self.enter()
             self.enter()
+            arquivo.write(str(basedados_urbano["MATRICULA"][i]))
+            arquivo.write(" - ")
+            arquivo.write(dataatual.strftime('%d/%m/%Y %H:%M'))
+            arquivo.write("\n")
+            arquivo.write("------------------- ")
+            arquivo.write("\n")
+            
             if not self.find("alterar", matching=0.97, waiting_time=10000):
                 self.not_found("alterar")
             self.click()
@@ -422,6 +447,7 @@ class Bot(DesktopBot):
                 self.not_found("salvar")
             self.click()
             self.space()
+            arquivo.close()
 
             # Uncomment to mark this task as finished on BotMaestro
     # self.maestro.finish_task(
